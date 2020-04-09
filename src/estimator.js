@@ -1,7 +1,18 @@
-const convertToDays = (period, timeToElapse) => {
-  if (period === 'days') return Math.floor(timeToElapse / 3);
-  if (period === 'week') return Math.floor((timeToElapse * 7) / 3);
-  return Math.floor((timeToElapse * 30) / 3);
+const convertToDays = (period, timeToElapse, currentlyInfected) => {
+  let days = period;
+  switch (period) {
+    case 'week':
+      days = (7 * timeToElapse);
+      break;
+    case 'months':
+      days = (30 * 7 * timeToElapse);
+      break;
+    default:
+      break;
+  }
+  const setThreeDays = Math.floor(days / 3);
+  const infectionsByRequestedTime = currentlyInfected * (2 ** setThreeDays);
+  return infectionsByRequestedTime;
 };
 
 const getImpact = (data) => {
