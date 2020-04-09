@@ -21,7 +21,7 @@ const getImpact = (data) => {
       periodType, timeToElapse, reportedCases, totalHospitalBeds, region
     } = data;
   const currentlyInfected = reportedCases * 10;
-  const timeInDays = convertToDays(periodType, timeToElapse);
+  const timeInDays = convertToDays(periodType, timeToElapse, currentlyInfected);
   const infectionsByRequestedTime = currentlyInfected * (2 ** Math.floor(timeInDays / 3));
   const severeCasesByRequestedTime = Math.floor(infectionsByRequestedTime * 0.15);
   const hospitalBedsAvailabe = Math.floor(totalHospitalBeds * 0.35);
