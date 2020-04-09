@@ -1,15 +1,7 @@
 const convertToDays = (period, timeToElapse) => {
-  switch (period) {
-    case 'days':
-      return timeToElapse;
-    case 'week':
-      return (7 * timeToElapse);
-    case 'months':
-      return (30 * timeToElapse);
-    default:
-      break;
-  }
-  return null;
+  if (period === 'days') return Math.floor(timeToElapse / 3);
+  if (period === 'week') return Math.floor((timeToElapse * 7) / 3);
+  return Math.floor((timeToElapse * 30) / 3);
 };
 
 const getImpact = (data) => {
