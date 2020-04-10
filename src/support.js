@@ -17,14 +17,9 @@ const worstCaseInfectionsMultiplier = 50;
 const getImpactCurrentlyInfected = (reportedCases) => reportedCases * bestCaseInfectionsMultiplier;
 const getSevereCurrentlyInfected = (reportedCases) => reportedCases * worstCaseInfectionsMultiplier;
 const getNormalizedPeriod = (timeToElapse, periodType = days) => {
-  switch (periodType) {
-    case months:
-      return timeToElapse * monthInDays;
-    case weeks:
-      return timeToElapse * weekInDays;
-    default:
-      return timeToElapse;
-  }
+  if (periodType === months) return timeToElapse * monthInDays;
+  if (periodType === weeks) return timeToElapse * weekInDays;
+  return timeToElapse;
 };
 
 const getInfectionsByRequestedTime = (currentlyInfected, period) => {
