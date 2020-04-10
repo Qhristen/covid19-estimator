@@ -5,14 +5,22 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "dev": "babel-node ./src/server.js",
+    "test": "jest",
+    "build": "babel src -d dist",
     "lint": "eslint ./src/"
   },
   "dependencies": {
-    "on-covid-19": "^0.1.3"
+    "cores": "^0.8.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "on-covid-19": "^0.1.3",
+    "xml": "^1.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
+    "@babel/node": "^7.8.7",
     "babel-jest": "^25.2.0",
     "jest": "^25.2.0",
     "eslint": "^6.8.0",
