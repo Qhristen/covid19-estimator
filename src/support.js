@@ -22,7 +22,7 @@ const getNormalizedPeriod = (timeToElapse, periodType = days) => {
     case weeks:
       return timeToElapse * weekInDays;
     default:
-      return timeToElapse;
+      return timeToElapse * 1;
   }
 };
 
