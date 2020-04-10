@@ -20,9 +20,7 @@ const covid19ImpactEstimator = (data) => {
   };
 
   const period = getNormalizedPeriod(data.timeToElapse, data.periodType);
-
   OutPutResult.data = input;
-
   OutPutResult.impact.currentlyInfected = getImpactCurrentlyInfected(data.reportedCases);
   OutPutResult.severeImpact.currentlyInfected = getSevereCurrentlyInfected(data.reportedCases);
   OutPutResult.impact.infectionsByRequestedTime = getInfectionsByRequestedTime(
