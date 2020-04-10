@@ -27,11 +27,11 @@ const getNormalizedPeriod = (timeToElapse, periodType = days) => {
 };
 
 const getInfectionsByRequestedTime = (currentlyInfected, period) => {
-  const factor = Math.floor(period / 3);
+  const factor = Math.trunc(period / 3);
   return currentlyInfected * (2 ** factor);
 };
 
-const getSevereCasesCount = (numberOfInfections) => Math.floor(numberOfInfections * 0.15);
+const getSevereCasesCount = (numberOfInfections) => Math.trunc(numberOfInfections * 0.15);
 const getRemainingHospitalBedsCount = (
   numberOfSevereCases,
   totalBeds
@@ -40,8 +40,8 @@ const getRemainingHospitalBedsCount = (
   return Math.trunc(availableBeds - numberOfSevereCases);
 };
 
-const getCasesForICUCount = (numberOfInfections) => Math.floor(numberOfInfections * 0.05);
-const getCasesForVentilatorsCount = (numberOfInfections) => Math.floor(numberOfInfections * 0.02);
+const getCasesForICUCount = (numberOfInfections) => Math.trunc(numberOfInfections * 0.05);
+const getCasesForVentilatorsCount = (numberOfInfections) => Math.trunc(numberOfInfections * 0.02);
 const getDollarsInFlight = (
   numberOfInfections,
   avgIncomePopulationPercentage,
@@ -49,7 +49,7 @@ const getDollarsInFlight = (
   period
 ) => {
   const result = numberOfInfections * avgIncomePopulationPercentage * avgDailyIncome * period;
-  return Number(result.toFixed(2));
+  return Math.trunc(result);
 };
 
 const support = {
