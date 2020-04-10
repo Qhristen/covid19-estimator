@@ -2,29 +2,13 @@ import express from 'express';
 import cores from 'cores';
 import fs from 'fs';
 import support from './support';
-import covid19ImpactEstimator from './estimator';
-import EstimatorModel from './estimatoModel';
+import router from './route';
 
 const app = express();
-const router = express.router();
-app.use(cores);
-app.use(express.json());
 const port = process.env.PORT || 3550;
 const { getLogDate } = support;
-
-const handlerJson = (req, res) => {
-  const output = new EstimatorModel(covid19ImpactEstimator, req.body).toJSON();
-  res.json(output);
-};
-
-router.post('/', handlerJson);
-router.post('/json', handlerJson);
-
-router.post('/xml', (req, res) => {
-  const output = new EstimatorModel(covid19ImpactEstimator, req.body).toXML();
-  res.header('Content-Type', 'application/xml; charset=UTF-8');
-  res.json(output);
-});
+app.use(cores);
+app.use(express.json());
 
 app.get('/clearLogs', (req, res) => {
   fs.unlink(`./logs/request-response/${getLogDate()}.txt`, (err) => {
@@ -33,15 +17,19 @@ app.get('/clearLogs', (req, res) => {
   });
 });
 
-router.get('/logs', (req, res) => {
-  fs.readFile(`./logs/request-response/${getLogDate()}.txt`, (err, data) => {
-    if (err && err.code !== 'ENOENT') throw err;
-    res.send(data);
+const { toServerLog, getDuration } = support;
+
+const responseTime = (req, res, next) => {
+  const startTime = process.hrtime();
+
+  res.on('finish', () => {
+    toServerLog(`${req.method}    ${req.baseUrl ? req.baseUrl : ''}${req.path}   ${res.statusCode}   ${getDuration(startTime)}ms`);
   });
-});
 
+  next();
+};
 
+app.use(responseTime);
 app.use('/', express.static('public'));
-
 app.use('/api/v1/on-covid-19', router);
 app.listen(port);

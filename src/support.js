@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 const days = 'days';
 const weeks = 'weeks';
 const months = 'months';
@@ -6,12 +8,11 @@ const getLogDate = () => {
   const date = new Date();
   return `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`;
 };
-const nanosecondsInASecond = 1e9;
-const nanosecondsInAMillisecond = 1e6;
 const monthInDays = 30;
 const weekInDays = 7;
 const bestCaseInfectionsMultiplier = 10;
 const worstCaseInfectionsMultiplier = 50;
+
 
 const getImpactCurrentlyInfected = (reportedCases) => reportedCases * bestCaseInfectionsMultiplier;
 const getSevereCurrentlyInfected = (reportedCases) => reportedCases * worstCaseInfectionsMultiplier;
@@ -27,11 +28,11 @@ const getNormalizedPeriod = (timeToElapse, periodType = days) => {
 };
 
 const getInfectionsByRequestedTime = (currentlyInfected, period) => {
-  const factor = Math.floor(period / 3);
+  const factor = Math.trunc(period / 3);
   return currentlyInfected * (2 ** factor);
 };
 
-const getSevereCasesCount = (numberOfInfections) => Math.floor(numberOfInfections * 0.15);
+const getSevereCasesCount = (numberOfInfections) => Math.trunc(numberOfInfections * 0.15);
 const getRemainingHospitalBedsCount = (
   numberOfSevereCases,
   totalBeds
@@ -40,8 +41,8 @@ const getRemainingHospitalBedsCount = (
   return Math.trunc(availableBeds - numberOfSevereCases);
 };
 
-const getCasesForICUCount = (numberOfInfections) => Math.floor(numberOfInfections * 0.05);
-const getCasesForVentilatorsCount = (numberOfInfections) => Math.floor(numberOfInfections * 0.02);
+const getCasesForICUCount = (numberOfInfections) => Math.trunc(numberOfInfections * 0.05);
+const getCasesForVentilatorsCount = (numberOfInfections) => Math.trunc(numberOfInfections * 0.02);
 const getDollarsInFlight = (
   numberOfInfections,
   avgIncomePopulationPercentage,
@@ -52,9 +53,20 @@ const getDollarsInFlight = (
   return Number(result.toFixed(2));
 };
 
+
+const toServerLog = (logInput) => {
+  const Table = `${logInput}
+  `;
+  fs.appendFile(`./logs/request-response/${getLogDate()}.txt`, Table, (err) => {
+    if (err) throw err;
+  });
+};
+
+const getDuration = (start) => {
+  const duration = process.hrtime(start);
+  return (duration[0] * 1e9 + duration[1]) / 1e6;
+};
 const support = {
-  nanosecondsInASecond,
-  nanosecondsInAMillisecond,
   getLogDate,
   getImpactCurrentlyInfected,
   getSevereCurrentlyInfected,
@@ -64,7 +76,9 @@ const support = {
   getRemainingHospitalBedsCount,
   getCasesForICUCount,
   getCasesForVentilatorsCount,
-  getDollarsInFlight
+  getDollarsInFlight,
+  toServerLog,
+  getDuration
 };
 
 export default support;
