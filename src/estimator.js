@@ -69,15 +69,15 @@ const covid19ImpactEstimator = (data) => {
 
   OutPutResult.impact.dollarsInFlight = getDollarsInFlight(
     OutPutResult.impact.infectionsByRequestedTime,
-    data.region.avgDailyIncomePopulation,
-    data.region.avgDailyIncomeInUSD,
+    input.region.avgDailyIncomePopulation,
+    input.region.avgDailyIncomeInUSD,
     period
   );
 
   OutPutResult.severeImpact.dollarsInFlight = getDollarsInFlight(
     OutPutResult.severeImpact.infectionsByRequestedTime,
-    data.region.avgDailyIncomePopulation,
-    data.region.avgDailyIncomeInUSD,
+    input.region.avgDailyIncomePopulation,
+    input.region.avgDailyIncomeInUSD,
     period
   );
 

@@ -6,7 +6,7 @@ import router from './route';
 
 const app = express();
 const port = process.env.PORT || 3550;
-const { getLogDate } = support;
+const { getLogDate, toServerLog, getDuration } = support;
 app.use(cors);
 app.use(express.json());
 
@@ -17,7 +17,6 @@ app.get('/clearLogs', (req, res) => {
   });
 });
 
-const { toServerLog, getDuration } = support;
 
 const responseTime = (req, res, next) => {
   const startTime = process.hrtime();

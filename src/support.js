@@ -27,7 +27,7 @@ const getNormalizedPeriod = (timeToElapse, periodType = days) => {
 };
 
 const getInfectionsByRequestedTime = (currentlyInfected, period) => {
-  const factor = Math.floor(period / 3);
+  const factor = period / 3;
   return currentlyInfected * (2 ** factor);
 };
 
