@@ -6,12 +6,15 @@
   "private": false,
   "scripts": {
     "dev": "babel-node ./src/server.js",
+    "test": "jest",
+    "build": "babel src -d dist",
     "lint": "eslint ./src/"
   },
   "dependencies": {
     "cores": "^0.8.5",
     "express": "^4.17.1",
-    "on-covid-19": "^0.1.3"
+    "on-covid-19": "^0.1.3",
+    "xml": "^1.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
