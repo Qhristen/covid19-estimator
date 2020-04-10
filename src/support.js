@@ -48,7 +48,7 @@ const getDollarsInFlight = (
   avgDailyIncome,
   period
 ) => {
-  const result = numberOfInfections * avgIncomePopulationPercentage * avgDailyIncome / period;
+  const result = (numberOfInfections * avgIncomePopulationPercentage * avgDailyIncome) / period;
   return Math.trunc(result);
 };
 
