@@ -19,9 +19,9 @@ const getSevereCurrentlyInfected = (reportedCases) => reportedCases * worstCaseI
 const getNormalizedPeriod = (timeToElapse, periodType = days) => {
   switch (periodType) {
     case months:
-      return Math.floor(timeToElapse * monthInDays);
+      return timeToElapse * monthInDays;
     case weeks:
-      return Math.floor(timeToElapse * weekInDays);
+      return timeToElapse * weekInDays;
     default:
       return timeToElapse;
   }

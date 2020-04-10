@@ -18,69 +18,70 @@ const covid19ImpactEstimator = (data) => {
     impact: {},
     severeImpact: {}
   };
+
+  const period = getNormalizedPeriod(data.timeToElapse, data.periodType);
+
   OutPutResult.data = input;
-  const { impact, severeImpact } = OutPutResult;
-  const period = getNormalizedPeriod(input.timeToElapse, input.periodType);
-  impact.currentlyInfected = getImpactCurrentlyInfected(input.reportedCases);
-  severeImpact.currentlyInfected = getSevereCurrentlyInfected(input.reportedCases);
-  impact.infectionsByRequestedTime = getInfectionsByRequestedTime(
-    impact.currentlyInfected,
+
+  OutPutResult.impact.currentlyInfected = getImpactCurrentlyInfected(data.reportedCases);
+  OutPutResult.severeImpact.currentlyInfected = getSevereCurrentlyInfected(data.reportedCases);
+  OutPutResult.impact.infectionsByRequestedTime = getInfectionsByRequestedTime(
+    OutPutResult.impact.currentlyInfected,
     period
   );
 
-  severeImpact.infectionsByRequestedTime = getInfectionsByRequestedTime(
-    severeImpact.currentlyInfected,
+  OutPutResult.severeImpact.infectionsByRequestedTime = getInfectionsByRequestedTime(
+    OutPutResult.severeImpact.currentlyInfected,
     period
   );
 
-  impact.severeCasesByRequestedTime = getSevereCasesCount(
-    impact.infectionsByRequestedTime
+  OutPutResult.impact.severeCasesByRequestedTime = getSevereCasesCount(
+    OutPutResult.impact.infectionsByRequestedTime
   );
 
-  severeImpact.severeCasesByRequestedTime = getSevereCasesCount(
-    severeImpact.infectionsByRequestedTime
+  OutPutResult.severeImpact.severeCasesByRequestedTime = getSevereCasesCount(
+    OutPutResult.severeImpact.infectionsByRequestedTime
   );
 
-  impact.hospitalBedsByRequestedTime = getRemainingHospitalBedsCount(
-    impact.severeCasesByRequestedTime,
-    input.totalHospitalBeds
+  OutPutResult.impact.hospitalBedsByRequestedTime = getRemainingHospitalBedsCount(
+    OutPutResult.impact.severeCasesByRequestedTime,
+    data.totalHospitalBeds
   );
 
-  severeImpact.hospitalBedsByRequestedTime = getRemainingHospitalBedsCount(
-    severeImpact.severeCasesByRequestedTime,
-    input.totalHospitalBeds
+  OutPutResult.severeImpact.hospitalBedsByRequestedTime = getRemainingHospitalBedsCount(
+    OutPutResult.severeImpact.severeCasesByRequestedTime,
+    data.totalHospitalBeds
   );
 
-  impact.casesForICUByRequestedTime = getCasesForICUCount(
-    impact.infectionsByRequestedTime
+  OutPutResult.impact.casesForICUByRequestedTime = getCasesForICUCount(
+    OutPutResult.impact.infectionsByRequestedTime
   );
 
-  severeImpact.casesForICUByRequestedTime = getCasesForICUCount(
-    severeImpact.infectionsByRequestedTime
+  OutPutResult.severeImpact.casesForICUByRequestedTime = getCasesForICUCount(
+    OutPutResult.severeImpact.infectionsByRequestedTime
   );
 
-  impact.casesForVentilatorsByRequestedTime = getCasesForVentilatorsCount(
-    impact.infectionsByRequestedTime
+  OutPutResult.impact.casesForVentilatorsByRequestedTime = getCasesForVentilatorsCount(
+    OutPutResult.impact.infectionsByRequestedTime
   );
 
-  severeImpact.casesForVentilatorsByRequestedTime = getCasesForVentilatorsCount(
-    severeImpact.infectionsByRequestedTime
+  OutPutResult.severeImpact.casesForVentilatorsByRequestedTime = getCasesForVentilatorsCount(
+    OutPutResult.severeImpact.infectionsByRequestedTime
   );
 
-  impact.dollarsInFlight = getDollarsInFlight(
-    impact.infectionsByRequestedTime,
-    input.region.avgDailyIncomePopulation,
-    input.region.avgDailyIncomeInUSD,
+  OutPutResult.impact.dollarsInFlight = getDollarsInFlight(
+    OutPutResult.impact.infectionsByRequestedTime,
+    data.region.avgDailyIncomePopulation,
+    data.region.avgDailyIncomeInUSD,
     period
   );
 
   OutPutResult.severeImpact.dollarsInFlight = getDollarsInFlight(
     OutPutResult.severeImpact.infectionsByRequestedTime,
-    input.region.avgDailyIncomePopulation,
-    input.region.avgDailyIncomeInUSD,
+    data.region.avgDailyIncomePopulation,
+    data.region.avgDailyIncomeInUSD,
     period
   );
-
   return OutPutResult;
 };
 export default covid19ImpactEstimator;
